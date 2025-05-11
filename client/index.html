@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DeepSeek Chat</title>
+</head>
+<body>
+  <h2>Ask DeepSeek</h2>
+  <textarea id="question" rows="4" cols="50"></textarea><br>
+  <button onclick="ask()">Submit</button>
+  <h3>Response:</h3>
+  <textarea rows="10" cols="100" id="response"></textarea>
+
+  <script>
+    async function ask() {
+      const question = document.getElementById("question").value;
+      const res = await fetch("http://localhost:5000/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question })
+      });
+
+      const data = await res.json();
+      document.getElementById("response").textContent = data.response || data.error;
+    }
+  </script>
+</body>
+</html>
